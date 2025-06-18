@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     POSTGRES_DB: str
 
     @property
-    def DATABAS_URI(self):
+    def DATABASE_URI(self):
         return (
             f"postgresql+asyncpg://"
             f"{self.POSTGRES_USER}:"
