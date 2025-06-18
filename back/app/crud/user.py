@@ -3,7 +3,7 @@ from sqlalchemy import select
 
 from app.models import User
 from app.schemas import UserCreate, UserBase
-from app.utils import get_password_hashed
+from app.utils import get_password_hashed, check_password
 
 async def get_user_by_email(session: AsyncSession, email: str):
     stmt = select(User).where(User.email == email)
@@ -21,5 +21,10 @@ async def create_user(session: AsyncSession, user: UserCreate) -> UserCreate:
     await session.refresh(new_user)
     return new_user
 
-async def authenticate(session: AsyncSession, emait: str, pasw: str):
-    pass
+async def authenticate(session: AsyncSession, email: str, password: str):
+    user = await get_user_by_email(session, email)
+    if not user:
+        return None
+    if not check_password(password, user.hashed_password):
+        return None
+    return user
