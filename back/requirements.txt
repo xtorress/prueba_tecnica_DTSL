@@ -1,6 +1,9 @@
 fastapi==0.115.12
 sqlalchemy==2.0.0
+pytest
+pytest-asyncio
 # psycopg2-binary
 asyncpg
 python-dotenv
 pydantic-settings
+bcrypt
