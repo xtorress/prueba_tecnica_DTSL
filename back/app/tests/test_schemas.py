@@ -12,7 +12,7 @@ def user():
         "password": "12345678"
     }
 
-@pytest.fixture()
+@pytest.fixture
 def item():
     return {
         "name": "camisa azul",
