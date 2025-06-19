@@ -1,7 +1,8 @@
 import pytest
 from pydantic import ValidationError
 
-from app.schemas import UserBase, UserCreate, Item, ItemBase
+from app.schemas import UserBase, UserCreate, Item, ItemBase, \
+                    StockHistory, StockHistoryBase
 
 @pytest.fixture
 def user():
@@ -14,6 +15,7 @@ def user():
 @pytest.fixture()
 def item():
     return {
+        "name": "camisa azul",
         "sku": "camisa-azul-m",
         "ean13": "1234567891234",
         "stock": 13
@@ -45,3 +47,45 @@ def test_item_stock_invalid(item):
     item['stock'] = -1
     with pytest.raises(ValidationError):
         ItemBase(**item)
+
+
+###### StockHistory tests.
+
+def test_stock_history_base():
+    item = Item(id=1, 
+                name="camisa azul", 
+                sku="camisa-azul-m", 
+                ean13="1234567891234", 
+                stock=13
+    )
+    data = {
+        "prev_stock": 10,
+        "actual_stock": 5,
+        "quantity_change": -5,
+        "move": "sale",
+        "item": item
+    }
+    history = StockHistoryBase(**data)
+    assert history.prev_stock == 10
+    assert history.actual_stock == 5
+    assert history.quantity_change == -5
+    assert history.move == "sale"
+    assert history.item.id == 1
+
+def test_stock_history_requires_id():
+    item = Item(id=1, 
+                name="camisa azul", 
+                sku="camisa-azul-m", 
+                ean13="1234567891234", 
+                stock=13
+    )
+    data = {
+        "prev_stock": 10,
+        "actual_stock": 5,
+        "quantity_change": -5,
+        "move": "sale",
+        "item": item,
+        "id": 100
+    }
+    history = StockHistory(**data)
+    assert history.id == 100
