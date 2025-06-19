@@ -22,6 +22,8 @@ async def update_item_stock(session: AsyncSession, item:ItemSchema, new_stock):
         move = "entrada"
     elif quantity_change < 0:
         move = "salida"
+    else:
+        move = "igual"
     
     history = StockHistory(
         item_id = item.id,
