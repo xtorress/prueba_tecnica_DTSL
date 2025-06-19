@@ -15,6 +15,7 @@ async def get_item_by_id(session: AsyncSession, id: int):
     return result.scalar_one_or_none()
 
 async def update_item_stock(session: AsyncSession, item:ItemSchema, new_stock):
+    """Update item stock and create a StockHistory."""
     quantity_change = new_stock - item.stock
 
     if quantity_change > 0:

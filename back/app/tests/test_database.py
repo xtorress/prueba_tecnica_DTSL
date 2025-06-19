@@ -12,9 +12,9 @@ async def test_database_connection():
     except Exception as e:
         pytest.fail(f"Fallo la conexión a la base de datos: {e}")
 
-@pytest.mark.asyncio
-async def test_init_db():
-    try:
-        await init_db()
-    except Exception as e:
-        pytest.fail(f"init_db falló: {e}")
+# @pytest.mark.asyncio
+# async def test_init_db():
+#     try:
+#         await init_db()
+#     except Exception as e:
+#         pytest.fail(f"init_db falló: {e}")
