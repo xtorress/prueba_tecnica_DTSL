@@ -30,6 +30,13 @@ class StockHistoryBase(BaseModel):
     move: str
     item: ItemSchema
 
+    class Config:
+        orm_mode = True
+
 
 class StockHistorySchema(StockHistoryBase):
     id: int
+
+
+class StockUpdateRequest(BaseModel):
+    new_stock: int
