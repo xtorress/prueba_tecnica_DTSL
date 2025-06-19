@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 import app.models
 from app.core.config import settings
 from app.core.db import init_db
-
+from app.api import items, users
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -12,6 +12,10 @@ async def lifespan(app: FastAPI):
     yield
 
 app = FastAPI(title=settings.APP_NAME, lifespan=lifespan)
-# @app.on_event("startup")
-# def on_startup():
-#     init_db()
+
+app.include_router(items.router)
+app.include_router(users.router)
+
+@app.get("/")
+async def root():
+    return {"message": "APIs Prueba Tecnica DIVAIN."}
