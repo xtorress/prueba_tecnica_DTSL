@@ -1,5 +1,5 @@
 import pytest
-from app.models import Item
+from app.models import Item, User
 from app.schemas import StockUpdateRequest
 
 @pytest.mark.asyncio
@@ -56,3 +56,20 @@ async def test_list_histories(client, async_session):
     response = await client.get("/items/history")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
+
+
+## User test.
+
+@pytest.mark.asyncio
+async def test_create_user_success(client, async_session):
+    payload = {
+        "email": "test@example.com",
+        "username": "Test User",
+        "password": "strongpassword"
+    }
+
+    response = await client.post("/users/", json=payload)
+    assert response.status_code == 200
+    data = response.json()
+    assert data["msg"] == "Usuario creado correctamente."
+    assert data["data"]["email"] == payload["email"]
