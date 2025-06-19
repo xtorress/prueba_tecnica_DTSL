@@ -18,7 +18,7 @@ class ItemBase(BaseModel):
     stock: int = Field(ge=0)
 
 
-class Item(ItemBase):
+class ItemSchema(ItemBase):
     id: int
 
 
@@ -28,8 +28,8 @@ class StockHistoryBase(BaseModel):
     actual_stock: int
     quantity_change: int
     move: str
-    item: Item
+    item: ItemSchema
 
 
-class StockHistory(StockHistoryBase):
+class StockHistorySchema(StockHistoryBase):
     id: int

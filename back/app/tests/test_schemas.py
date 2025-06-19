@@ -1,8 +1,8 @@
 import pytest
 from pydantic import ValidationError
 
-from app.schemas import UserBase, UserCreate, Item, ItemBase, \
-                    StockHistory, StockHistoryBase
+from app.schemas import UserBase, UserCreate, ItemSchema, ItemBase, \
+                    StockHistorySchema, StockHistoryBase
 
 @pytest.fixture
 def user():
@@ -52,7 +52,7 @@ def test_item_stock_invalid(item):
 ###### StockHistory tests.
 
 def test_stock_history_base():
-    item = Item(id=1, 
+    item = ItemSchema(id=1, 
                 name="camisa azul", 
                 sku="camisa-azul-m", 
                 ean13="1234567891234", 
@@ -73,7 +73,7 @@ def test_stock_history_base():
     assert history.item.id == 1
 
 def test_stock_history_requires_id():
-    item = Item(id=1, 
+    item = ItemSchema(id=1, 
                 name="camisa azul", 
                 sku="camisa-azul-m", 
                 ean13="1234567891234", 
@@ -87,5 +87,5 @@ def test_stock_history_requires_id():
         "item": item,
         "id": 100
     }
-    history = StockHistory(**data)
+    history = StockHistorySchema(**data)
     assert history.id == 100
