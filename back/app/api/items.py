@@ -25,7 +25,7 @@ async def update_stock(session: SessionDep, item_id: int, data:StockUpdateReques
         if not item:
             raise HTTPException(status_code=404, detail="Item no encontrado.")
         if data.new_stock < 0:
-            raise HTTPException(status_code=404, detail="El stock no puede ser negativo.")
+            raise HTTPException(status_code=400, detail="El stock no puede ser negativo.")
         movement = await update_item_stock(session, item, data.new_stock)
         # await session.refresh()
         return {
@@ -33,10 +33,12 @@ async def update_stock(session: SessionDep, item_id: int, data:StockUpdateReques
             "msg":"Stock actualizado correctamente.",
             "data":movement
         }
+    except HTTPException:
+        raise
     
     except Exception as e:
         raise HTTPException(
-            status_code=505,
+            status_code=500,
             detail=f"Error al actualizar stock: {str(e)}"
         )
 
