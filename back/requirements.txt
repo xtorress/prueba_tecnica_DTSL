@@ -1,7 +1,9 @@
 fastapi==0.115.12
 sqlalchemy==2.0.0
+uvicorn[standard]
 pytest
 pytest-asyncio
+pydantic[email]
 # psycopg2-binary
 asyncpg
 python-dotenv
