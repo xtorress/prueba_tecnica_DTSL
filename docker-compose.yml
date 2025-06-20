@@ -4,7 +4,6 @@ services:
   #   build:
   #     context: front
   #     dockerfile: front/Dockerfile
-  #     target: development
   #   networks:
   #     - client-sid
   #   ports:
@@ -12,19 +11,38 @@ services:
 
   api:
     build:
-      context: back
-      dockerfile: back/Dockerfile
-      target: development
-    env_file: back/.env
-    container_name: fastapi_app
-    networks:
-      # - client-side
-      - server-side
+      context: ./back
+      dockerfile: Dockerfile
+    container_name: fastapi-app
+    ports:
+      - "8000:8000"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+        restart: true
+    env_file: 
+      - ./back/.env
+    volumes:
+      - ./back:/app
+    # networks:
+    #   # - client-side
+    #   - server-side
 
   db:
-    image: postgres:12-alpine
+    image: postgres:16
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    container_name: postgres-db
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
     volumes:
       - db-data:/var/lib/postgresql/data
 
+volumes:
+  db-data:
