@@ -22,8 +22,7 @@ services:
         restart: true
     env_file: 
       - ./back/.env
-    volumes:
-      - ./back:/app
+
     # networks:
     #   # - client-side
     #   - server-side
