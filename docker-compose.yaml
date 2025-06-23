@@ -21,7 +21,7 @@ services:
         condition: service_healthy
         restart: true
     env_file: 
-      - ./back/.env
+      - .env
 
     # networks:
     #   # - client-side
