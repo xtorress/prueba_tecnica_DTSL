@@ -1,3 +1,5 @@
+import secrets
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
@@ -10,6 +12,7 @@ class Settings(BaseSettings):
     
     APP_NAME: str = "API Prueba Tecnica DIVAIN"
     API_V1: str = "/api/v1"
+    SECRET_KEY: str = secrets.token_urlsafe(32)
     
     POSTGRES_HOST:str
     POSTGRES_PORT: int = 5432
