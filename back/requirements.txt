@@ -8,4 +8,5 @@ pydantic[email]
 asyncpg
 python-dotenv
 pydantic-settings
-bcrypt
+passlib[bcrypt]
+httpx
