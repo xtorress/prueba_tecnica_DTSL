@@ -40,3 +40,12 @@ class StockHistorySchema(StockHistoryBase):
 
 class StockUpdateRequest(BaseModel):
     new_stock: int
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(Token):
+    sub: str | None = None
