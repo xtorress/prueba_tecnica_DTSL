@@ -1,8 +1,10 @@
-from fastapi import APIRouter,  HTTPException
+from fastapi import APIRouter,  HTTPException, Depends
+from typing import Annotated
 
 from app.core.db import SessionDep
 from app.schemas import UserCreate
 from app.crud import user as crud
+from app.api.depends import current_user
 
 router = APIRouter(prefix="/users", tags=['users'])
 
@@ -25,3 +27,8 @@ async def create_user(session: SessionDep, user_in: UserCreate):
             status_code=500,
             detail=f"Error al crear usuario: {str(e)}"
         )
+
+
+@router.get("/me")
+async def my_user(user: current_user):
+    return user

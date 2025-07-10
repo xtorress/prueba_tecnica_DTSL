@@ -6,6 +6,7 @@ from app.schemas import ItemBase, StockHistoryBase, \
                         StockUpdateRequest
 from app.crud import item as crud
 from app.crud.item import DuplicateItemError
+from app.api.depends import current_user
 
 router = APIRouter(prefix="/items", tags=['items'])
 
@@ -15,7 +16,7 @@ async def list_items(session: SessionDep):
     return items
 
 @router.get("/history", response_model=List[StockHistoryBase])
-async def list_histories(session: SessionDep):
+async def list_histories(session: SessionDep, user: current_user):
     histories = await crud.get_histories_stock(session)
     return histories
 
