@@ -1,4 +1,5 @@
 from sqlalchemy import select
+from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models import Item, StockHistory
@@ -66,6 +67,7 @@ async def update_item_stock(session: AsyncSession, item:ItemSchema, new_stock):
     return history
 
 async def get_histories_stock(session: AsyncSession):
-    stmt = select(StockHistory)
+    # Use selectinload because relationships in SQLAlchemy are a lazy-loaded by default.
+    stmt = select(StockHistory).options(selectinload(StockHistory.item))
     result = await session.execute(stmt)
     return result.scalars().all()
